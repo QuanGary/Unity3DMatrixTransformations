@@ -189,7 +189,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1003,7 +1003,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294910720
+    rgba: 16720640
   m_fontColor: {r: 0, g: 0.13914871, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2684,7 +2684,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3066,7 +3066,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3389,16 +3389,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e305ad431f1947c469f653d7539cb927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matrix2D: {fileID: 0}
   cube: {fileID: 840931373}
   plane1: {fileID: 1317855487}
   plane2: {fileID: 1317855487}
   plane3: {fileID: 1317855487}
   plane4: {fileID: 1317855487}
   plane5: {fileID: 1317855487}
+  fadeScreen: {fileID: 686999168876362670}
   transition: {fileID: 1460714772}
   transitionCanvas: {fileID: 1433160441}
-  fadeScreen: {fileID: 686999168876362670}
+  AnimatorCustomCube: {fileID: 1433160441}
+  inputX0: {fileID: 586024176}
+  inputX1: {fileID: 1287071231}
+  inputX2: {fileID: 1205883565}
+  inputY0: {fileID: 364506254}
+  inputY1: {fileID: 1085633448}
+  inputY2: {fileID: 247663270}
+  inputZ0: {fileID: 153365307}
+  inputZ1: {fileID: 1185768601}
+  inputZ2: {fileID: 289364151}
+  inputAngle: {fileID: 1660196984}
   curveX0:
     serializedVersion: 2
     m_Curve:
@@ -3624,18 +3634,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  inputX0: {fileID: 586024176}
-  inputX1: {fileID: 1287071231}
-  inputX2: {fileID: 1205883565}
-  inputY0: {fileID: 364506254}
-  inputY1: {fileID: 1085633448}
-  inputY2: {fileID: 247663270}
-  inputZ0: {fileID: 153365307}
-  inputZ1: {fileID: 1185768601}
-  inputZ2: {fileID: 289364151}
-  inputAngle: {fileID: 1660196984}
-  cam: {fileID: 481675081}
-  AnimatorCustomCube: {fileID: 1433160441}
 --- !u!1 &881448416
 GameObject:
   m_ObjectHideFlags: 0
@@ -4343,7 +4341,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -4510,7 +4508,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -6077,7 +6075,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -6458,7 +6456,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -6592,7 +6590,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190297
+    rgba: 217
   m_fontColor: {r: 0.8490566, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -6737,7 +6735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5353226903410958812, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 0
+      value: 3338665984
       objectReference: {fileID: 0}
     - target: {fileID: 5353226903428480455, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_Color.a
@@ -6769,7 +6767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5353226904335466854, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 0
+      value: 3338665984
       objectReference: {fileID: 0}
     - target: {fileID: 5353226904367997258, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_text
@@ -6789,7 +6787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5353226904367997258, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 0
+      value: 3338665984
       objectReference: {fileID: 0}
     - target: {fileID: 5353226904549132980, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_CullTransparentMesh
@@ -6945,7 +6943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5353226905112225767, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 0
+      value: 3338665984
       objectReference: {fileID: 0}
     - target: {fileID: 5353226905112588879, guid: 632e4bee84b1a644cae5d1648cba9cf9, type: 3}
       propertyPath: m_Enabled
@@ -7028,7 +7026,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278308096
+    rgba: 118016
   m_fontColor: {r: 0, g: 0.8039216, b: 0.003921569, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -7162,7 +7160,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -7296,7 +7294,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3355443200
+    rgba: 0
   m_fontColor: {r: 0, g: 0, b: 0, a: 0.78431374}
   m_enableVertexGradient: 0
   m_colorMode: 3
