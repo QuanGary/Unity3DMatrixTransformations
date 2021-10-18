@@ -16,7 +16,8 @@ public class MatrixTransformation : MonoBehaviour
     public GameObject plane4;
     public GameObject plane5;
     public GameObject fadeScreen;
-
+    public GameObject airplane;
+    
     // Animators
     public Animator transition;
     public Animator transitionCanvas;
@@ -52,6 +53,7 @@ public class MatrixTransformation : MonoBehaviour
     public AnimationCurve curve2DMatrixTo3DMatrixScene2;
     public AnimationCurve curveDisplayOtherPlanes;
     public AnimationCurve curveDisplayCube;
+    public AnimationCurve curveDisplayAirplane;
 
     // Matrix values
     private float x0;
@@ -96,7 +98,6 @@ public class MatrixTransformation : MonoBehaviour
     private const int InitialWaitTime = 2;
     private const string PiSymbol = "\u03C0";
 
-
     private void Awake()
     {
         fadeScreen.SetActive(true);
@@ -120,7 +121,7 @@ public class MatrixTransformation : MonoBehaviour
         {
             curveX0, curveX1, curveX2, curveY0, curveY1, curveY2,
             curveZ0, curveZ1, curveZ2, curve2DTo3DScene1, curve2DMatrixTo3DMatrixScene2, curve2DTo3DScene2,
-            curveDisplayOtherPlanes, curveDisplayCube
+            curveDisplayOtherPlanes, curveDisplayCube, curveDisplayAirplane
         }; // If more curves, add them here
 
         _transformIntervals = new LinkedList<TransformInterval>();
@@ -138,8 +139,7 @@ public class MatrixTransformation : MonoBehaviour
 
         _cubeMesh = cube.GetComponent<MeshFilter>().mesh;
         _cubeVertices = _cubeMesh.vertices;
-
-
+        
         DisableFrontFaceCube(); // Fades the face of the cube where the Bug texture is
 
 
@@ -197,7 +197,7 @@ public class MatrixTransformation : MonoBehaviour
         curve2DTo3DScene2.AddKey(0, 0);
         curveDisplayOtherPlanes.AddKey(0, 0);
         curveDisplayCube.AddKey(0, 0);
-
+        curveDisplayAirplane.AddKey(0, 0);
         ///
         // Scene1:
         // + 2D identity matrix -> 3D identity matrix
@@ -212,12 +212,12 @@ public class MatrixTransformation : MonoBehaviour
             // The animation (defined outside this script) is 3s long.
             // Please let me know if you want to adjust this transition
             curve2DTo3DScene1.AddKey(0, 1);
-
+            curveDisplayCube.AddKey(0.01f, 1); // display cube
 
             //////////////////////////////////////////////////////////
             /// Step 2: Do 3D transformations
             /////////////////////////////////////////////////////////
-
+            
             //////////////////////////////////////////////////////////
             // SCALE X
             ScaleX(1f, 1.5f, 1, 5); // iniWaitTime=5 means we wait 2s after the transition above
@@ -228,7 +228,7 @@ public class MatrixTransformation : MonoBehaviour
             // SCALE Z
             ScaleZ(1f, 1.5f, 1, InitialWaitTime);
             ScaleZ(1.5f, 1f, 1, 0.5f);
-
+            
             ////////////////////////////////////////////////////////////
             // SHEAR X
             ShearX(0f, -0.5f, 0.5f, InitialWaitTime);
@@ -242,7 +242,7 @@ public class MatrixTransformation : MonoBehaviour
             ShearZ(0f, -0.5f, 0.5f, InitialWaitTime);
             ShearZ(-0.5f, 0.5f, 1f, 0);
             ShearZ(0.5f, 0f, 0.5f, 0);
-
+            
             ////////////////////////////////////////////////////////////
             // REFLECT ACROSS Y
             ScaleX(1f, -1f, 1.25f, InitialWaitTime);
@@ -255,11 +255,26 @@ public class MatrixTransformation : MonoBehaviour
             ScaleZ(-1f, 1f, 1.25f, 0.5f);
 
 
-            ////////////////////////////////////////////////////////////
-            // FULL ROTATION 0->2PI
+            // ////////////////////////////////////////////////////////////
+            // // FULL ROTATION 0->2PI
             RotateByZ(0, 6.28f, 3, InitialWaitTime);
             RotateByY(0, 6.28f, 3, 0);
             RotateByX(0, 6.28f, 3, 0);
+            
+            var fadeCubeShowPlanesTime = GetLastKeyTime() + 1; // wait 1s after step 3
+            curveDisplayCube.AddKey(fadeCubeShowPlanesTime, 1);
+            curveDisplayCube.AddKey(fadeCubeShowPlanesTime + 0.001f, 0); // fade cube     
+
+
+            curveDisplayAirplane.AddKey(fadeCubeShowPlanesTime + 1, 1);
+            ////////////////////////////////////////////////////////////
+            // FULL ROTATION 0->2PI
+            RotateByZ(0, 6.28f, 3, InitialWaitTime);
+            RotateByY(0, 6.28f, 3, 1);
+            RotateByX(0, 6.28f, 3, 1);
+            
+            SetCurveLinear(curveDisplayCube, 0, GetLastKeyTime());
+
         }
 
         ///
@@ -407,8 +422,86 @@ public class MatrixTransformation : MonoBehaviour
                 transitionCanvas.Play("Scene1_2Dto3DCanvas");
                 transition.Play("Scene1_2Dto3D");
             }
-        }
+            
+            var evaluationDisplayAirplane = curveDisplayAirplane.Evaluate(_animationTime);
+            if (evaluationDisplayAirplane >= 1f)
+            {
+                airplane.SetActive(true);
+                var radAngle = curveAngle.Evaluate(_animationTime);
+                var angleDeg = Mathf.Rad2Deg * radAngle;
+                var eulerAngles = airplane.transform.localRotation.eulerAngles;
+                Debug.Log("GENERAL ANGLES : " + eulerAngles);
 
+                // var x = eulerAngles.x;
+                // var y = Clamp0360(eulerAngles.y);
+                // var z = Clamp0360(eulerAngles.z);
+                if (radAngle != 0f)
+                {
+                    if (usingRotation == "rotateByZ")
+                    {
+                        var delta = angleDeg - (curveAngle.Evaluate(_animationTime - 0.01f) * Rad2Deg);
+                        Debug.Log("rotateByZ : " + airplane.transform.localEulerAngles);
+                        var val = Math.Abs(angleDeg - 360f) < 1 ? 0 : delta;
+                        
+                        // var rot = airplane.transform.localEulerAngles;
+                        // Debug.Log("euler angles: " + rot + ". Angle degree: " + angleDeg);
+                        // rot.x += val;
+                        // airplane.transform.localRotation = Quaternion.Euler(new Vector3(angleDeg, y , z));
+                        
+                        // airplane.transform.Rotate(Vector3.forward, 1);
+                        // airplane.transform.Rotate();
+                   
+                        // airplane.transform.Rotate(0, -val, 0);
+                        airplane.transform.Rotate(Vector3.down, val, Space.Self);
+                        // airplane.transform.localRotation= Quaternion.Euler(new Vector3(150 + angleDeg, -55, 145));
+                        // airplane.transform.localEulerAngles = new Vector3(angleDeg, -90, 90);
+                    } else if (usingRotation == "rotateByY")
+                    {
+                        var delta = angleDeg - (curveAngle.Evaluate(_animationTime - 0.01f) * Rad2Deg);
+                        Debug.Log("rotateByY : " + airplane.transform.localEulerAngles);
+                        var val = Math.Abs(angleDeg - 360f) < 1 ? 0 : delta;
+                        // // airplane.transform.Rotate(val, 0, 0);
+                        airplane.transform.Rotate(Vector3.right, val);
+
+                        // airplane.transform.Rotate(0, 1, 0);
+
+                        // airplane.transform.Rotate(Vector3.right, 1);
+                        // airplane.transform.localRotation= Quaternion.Euler(new Vector3(0, -90 + angleDeg, 90));
+                        // airplane.transform.localEulerAngles = new Vector3(0, -90 + angleDeg, 90);
+                        
+                    }
+                    else if (usingRotation == "rotateByX")
+                    {
+                        var delta = angleDeg - (curveAngle.Evaluate(_animationTime - 0.01f) * Rad2Deg);
+                        Debug.Log("Delta: " + delta);
+                        var val = Math.Abs(angleDeg - 360f) < 1 ? 0 : delta;
+                        airplane.transform.Rotate(0, 0, -val);
+                    }
+                } else
+                {
+                    // var rot = airplane.transform.localEulerAngles;
+                    // Debug.Log("euler angles: " + rot + ". Angle degree: " + angleDeg);
+                    // rot.x += val;
+                    
+                    var a = Quaternion.Euler(airplane.transform.localEulerAngles);
+                    var b = Quaternion.Euler(new Vector3(0, -90, 90));
+                    airplane.transform.localRotation = Quaternion.Lerp(a, b, 0.25f);
+                    Debug.Log("Resetting");
+                }
+                
+            }
+        }
+        // Displaying cube anim
+        var evaluateDisplayCube = curveDisplayCube.Evaluate(_animationTime);
+        if (Math.Abs(evaluateDisplayCube - 1f) < float.Epsilon)
+        {
+            cube.SetActive(true);
+            ResetAlpha(cube, 1f);
+        }
+        else
+        {
+            StartCoroutine(FadeOutMaterial(0.5f, cube));
+        }
         // Animations for Scene2
         if (SceneManager.GetActiveScene().name == "Scene2")
         {
@@ -432,17 +525,7 @@ public class MatrixTransformation : MonoBehaviour
             var evaluationDisplayOtherPlanes = curveDisplayOtherPlanes.Evaluate(_animationTime);
             DisplayOtherPlanes(Math.Abs(evaluationDisplayOtherPlanes - 1f) < float.Epsilon);
 
-            // Displaying cube anim
-            var evaluateDisplayCube = curveDisplayCube.Evaluate(_animationTime);
-            if (Math.Abs(evaluateDisplayCube - 1f) < float.Epsilon)
-            {
-                cube.SetActive(true);
-                ResetAlpha(cube, 1f);
-            }
-            else
-            {
-                StartCoroutine(FadeOutMaterial(0.5f, cube));
-            }
+          
         }
     }
 
